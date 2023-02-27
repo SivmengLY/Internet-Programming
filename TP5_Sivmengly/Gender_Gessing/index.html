@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        .padding-top{
+            padding-top: 100px;
+        }
+        .wrapper{
+            width: 500px;
+            height: 450px;
+            margin: auto;
+            border: 3px solid black;
+        }
+        .top{
+            text-align: center;
+        }
+        .emoji{
+            padding: 20px;
+            font-size: 80px;
+        }
+        .sentence{
+            text-align: center;
+            display: inline-flex;
+            padding-bottom: 20px;
+        }
+        .gender-text{
+            color: blue;
+        }
+        .btn{
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .btn #search{
+            border-radius: 5px;
+            border: 1px solid black;
+        }
+        .btn button{
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid white;
+        }
+        .display-box{
+            border-radius: 5px;
+            border: 2px solid gainsboro;
+            background-color: whitesmoke;
+            width: 40%;
+            margin: auto;
+            text-align: center;
+            padding: 10px 10px;
+        }
+        .display-box #name{
+            font-weight: bold;
+        }
+        .display-box #gender{
+            font-size: 2rem;
+            color: orangered;
+        }
+        .display-box #probability{
+            font-size: 20px;
+            color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="padding-top"></div>
+    <div class="wrapper">
+        <div class="top">
+            <div class="emoji">🧐</div>
+            <div class="sentence">
+                <h1>I Know you</h1>
+                <h1 class="gender-text">&nbsp;Gender</h1>
+            </div>
+        </div>
+        <div class="btn">
+            <input type="text" id="search" placeholder="Tell me your name">
+            <button onclick="GetGender()">Guess</button>
+        </div>
+        <div class="loadig" id="loading-text" hidden></div>
+        <div class="display-box">
+            <div id="name"></div>
+            <div id="gender"></div>
+            <div id="probability"></div>    
+        </div>
+    </div>
+    <script>
+        const loadingTextEle = document.getElementById("loading-text");
+        const genderEle = document.getElementById("gender");
+        const probabiltityEle = document.getElementById("probability")
+        const nameEle = document.getElementById("name")
+        function GetGender(){
+            const name = document.getElementById("search").value;
+            loadingTextEle.hidden = false; 
+            fetch(`https://api.genderize.io?name=${name}`).then(async (res) => {
+                let data = await res.json();
+                loadingTextEle.hidden = true;
+                nameEle.innerHTML = data["name"];
+                genderEle.innerHTML = data["gender"];
+                probabiltityEle.innerHTML = data["probability"]*100+"%";
+            })
+        }
+    </script>
+</body>
+</html>

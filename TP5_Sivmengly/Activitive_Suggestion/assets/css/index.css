@@ -1,0 +1,38 @@
+body{
+    background-image: url(../imag/36305.webp);
+}
+.container{
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 1.5em;
+    margin: 50px auto;
+    width: 600px;
+    height: 600px;
+
+}
+.header{
+    text-align: center;
+    padding: 2em;
+}
+.contain{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.buttom_talk{
+    background-color: rgb(72, 158, 219);
+    height: 35px;
+    width: 165px;
+    border: none;
+    color: white;
+    margin-right: 8px;
+    cursor: pointer;
+    font: bold;
+    border-radius: 30px;
+}
+.buttom_talk:active{
+    background-color: blue;
+}
+
+ul.task_list{
+    list-style: none;
+}

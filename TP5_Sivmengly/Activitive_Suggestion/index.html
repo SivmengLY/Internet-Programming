@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+           <img style="a" width="150px" src="./assets/imag/istockphoto-148421550-612x612.jpg" alt="">
+           <h2 style="font-family: Arial, sans-serif; color: rgb(16, 21, 22);">Are you boring?</h2>
+           
+           
+           <button class="buttom_talk" onclick="fetchNewActivity()">Talk me what to do!</button>
+            <div id="loading-text" hidden> Loading....</div>
+            <!-- <div id="activity-name">activity</div> -->
+           
+           
+           
+        
+        </div>
+        <div class="contain">
+            <h4 style="text-align: center;" id="activity-name">Learn and play is new card game</h4>
+            <ul class="task_list">
+                
+                <li>
+                    <span class="material-icons" style="font-size:12px; color: dodgerblue;">cloud</span>
+                    <span id="ty">Types: </span>  
+                </li> 
+                 <li>
+                    <span class="material-icons" style="font-size:12px; color: dodgerblue;">people</span>
+                    <span id="participants">Participation: </span>  
+                </li>
+               <li class="task_item ">
+                    <span class="material-icons" style="font-size:12px; color: dodgerblue;">money</span>
+                    <span id="price">Price: </span>  
+                </li>
+                 <li class="task_item ">
+                    <span class="material-icons" style="font-size:12px; color: dodgerblue;">link</span>
+                    <span id="link">Link:👻 </span>  
+                </li>
+            </ul>
+        </div>
+        <script>
+            const activityNameEle = document.getElementById("activity-name");
+            const typeNameEle = document.getElementById("ty");
+            const particicipantsEle = document.getElementById("participants");
+            const priceEle = document.getElementById("price");
+            const linkEle = document.getElementById("link");
+            
+
+            const loadingTextEle = document.getElementById('loading-text');
+
+            function fetchNewActivity(){
+
+                activityNameEle.innerHTML="";
+                typeNameEle.innerHTML="";
+                particicipantsEle.innerHTML="";
+                priceEle.innerHTML="";
+                linkEle.innerHTML="";
+                loadingTextEle.hidden=false;
+                probelite();
+
+                
+            }
+            function probelite(){
+                fetch(" https://www.boredapi.com/api/activity").then(async(res) => {
+                    loadingTextEle.hidden = true;
+                    let data = await res.json();
+
+                    activityNameEle.innerHTML ="Activity: "+data["activity"];
+                    typeNameEle.innerHTML ="Type: " +data["type"];
+                    particicipantsEle.innerHTML ="Participants: " +data["participants"];
+                    priceEle.innerHTML ="Price: " +data["price"]
+                    linkEle.innerHTML = "Link: "+ data["link"]; 
+                });
+            }
+            
+
+        </script>
+    </div>
+    <!-- <script src="./assets/js/index.js"></script> -->
+</body>
+</html>

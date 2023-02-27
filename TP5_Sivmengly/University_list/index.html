@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+    <style>
+        body{
+            display: flex;
+            height: 800px;
+            justify-content: center;
+            align-items: center;
+        }
+        .box{
+            flex-direction: column;
+            width: 750px;
+            height: 500px;
+            overflow-x: auto;
+            border: 5px solid black;
+            text-align: center;
+        }
+        .box img{
+            margin-top: 15px;
+            width: 100px;
+        }
+        .box h3{
+            font-size: 23px;
+            font-family: 'Irish Grover', cursive;
+        }
+        .box select{
+            padding: 0px 10px;
+            width: 200px;
+            height: 40px;
+            border-radius: 5px;
+        }
+        #display{
+            width: 625px;
+            height: 160px;
+            margin: 10px auto;
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: whitesmoke;
+        }
+        #loading{
+            padding-top: 65px;
+            font-size: 30px;
+        }
+        #show{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .university{
+            margin-top: 5px;
+            margin-left: 5px;
+            width: 200px;
+            padding: 5px 0px;
+            font-size: 12px;
+            border: 1px solid gainsboro;
+            border-radius: 5px;
+            background-color:whitesmoke;
+        }
+        .link{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .link i{
+            margin: 10px 2px;
+            margin-right: 5px;
+            color: rgb(111, 111, 249);
+        }
+        .link a{
+            color: rgb(111, 111, 249);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="https://i.ibb.co/sbKM33R/image.png" alt="logo">
+        <h3>Which Univ. do you want to study?</h3>
+            <select name="country" id="country" onchange="change()">
+                <option selected disabled>Choose a country</option>
+                <option value="Cambodia">Cambodia</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Viet nam">Vietnam</option>
+                <option value="Lao People's Democratic Republic">Laos</option>
+                <option value="Myanmar">Myanmar</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Philippines">Philippines</option>
+                <option value="Singapore">Singapore</option>
+                <option value="India">India</option>
+                <option value="France">France</option>
+                <option value="United States">United States</option>
+            </select>
+        <div id="display">
+            <div id="loading">
+                Loading...
+            </div>
+        
+            <div id="listing">
+                <div id="show"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let display = document.getElementById('display');
+        display.hidden = true;
+        function change() {
+            display.hidden = false;
+            display.style.background = "aliceblue";
+            display.style.border = "1px solid black";
+            let loading = document.getElementById('loading');
+            let listing = document.getElementById('listing');
+            loading.hidden = false;
+            listing.hidden = true;
+            let countrySelect = document.getElementById('country');
+            fetch(`http://universities.hipolabs.com/search?country=${countrySelect.value}`)
+                .then(async(result) => {
+                    let show = document.getElementById('show');
+                    loading.hidden = true;
+                    listing.hidden = false;
+                    display.style.background = "white";
+                    display.style.border = "none";
+                    let data = await result.json();
+                    let tmp = "";
+                    for(let x of data) {
+                        tmp += `
+                            <div class="university">
+                                <span>${x.name}</span>
+                                <br>
+                                <span>(${x.country} - ${x.alpha_two_code})</span>
+                                <br>
+                                <div class="link">
+                                    <i class="fa-solid fa-earth-americas"></i>
+                                    <a href="${x.web_pages[0]}">
+                                        ${x.web_pages[0]}
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    show.innerHTML = tmp;
+                })
+        }
+    </script>
+</body>
+</html>

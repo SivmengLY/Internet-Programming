@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        .padding-top{
+            padding-top: 100px;
+        }
+        .wrapper{
+            border: 3px solid black;
+            margin: auto;
+            width: 500px;
+            height: 500px;
+            box-shadow: 0 0 5px black;
+        }
+        .top{
+            text-align: center;
+            padding-top: 20px;
+        }
+        .top img{
+            height: 100px;
+            padding-bottom: 20px;
+        }
+        .word-high-light{
+            color: blue;
+        }
+        .top h1{
+            padding-bottom: 20px;
+        }
+        .btn{
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .btn button{
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid white;
+        }
+        .btn #search{
+            border-radius: 5px;
+            border: 1px solid black;
+        }
+        .display-padding{
+            padding-top: 5px;
+        }
+        .display{
+            border-radius: 8px;
+            border: 3px solid gainsboro;
+            background-color: whitesmoke;
+            width: 40%;
+            margin: auto;
+            text-align: center;
+            padding: 10px 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .display .country{
+            font-weight: bold;
+        }
+        .display .percentage{
+            font-weight: bold;
+            color: orangered;
+        }
+    </style>
+</head>
+<body>
+    <div class="padding-top"></div>
+    <div class="wrapper">
+        <div class="top">
+            <img src="https://th.bing.com/th/id/R.8af068f209d1c345e92acc950bc4f8f3?rik=wDLwhMF%2biKk0kA&riu=http%3a%2f%2fclipartmag.com%2fimages%2fspinning-globe-gif-27.gif&ehk=JdMr6nrdN5HVQqPT7wBkMwiUoyAh4mzYX6H7XtbLTNo%3d&risl=&pid=ImgRaw&r=0" alt="logo">
+            <h1>I Know you <span class="word-high-light">Home</span></h1>
+        </div>
+        <div class="btn">
+            <input type="text" id="search" placeholder="Tell me your first name">
+            <button onclick="getCountry()">Guess</button>
+        </div>
+        <div class="container"></div>
+    </div>
+    <script>
+        function getCountry(){
+            const name = document.getElementById('search').value;
+            fetch(`https://api.nationalize.io?name=${name}`).then(async (res) => {
+                let data = await res.json();
+                let tmp ="";
+                data.country.forEach(item=>{
+                    tmp+=
+                    `
+                    <div class="display-padding"></div>
+                    <div class="display">
+                        <div class="country">${item.country_id}</div>
+                        <div class="percentage">${Number(item.probability*100).toFixed(2)}%</div>
+                    </div>
+                    `
+                })
+                document.querySelector(".container").innerHTML=tmp;
+            })
+        }
+    </script>
+</body>
+</html>
